@@ -19,8 +19,10 @@ class StockItem extends StatelessWidget {
           (stock.stockName).text.size(18).bold.make(),
           emptyExpended,
           Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-
+              stock.todayPercentageString.text.color(stock.getPriceColor(context)).make(),
+              "${stock.currentPrice.toComma()}원".text.color(context.appColors.lessImportantColor).make()
             ],
           ),
         ],
