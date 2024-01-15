@@ -20,7 +20,7 @@ class OpensourceItem extends StatelessWidget {
           if(package.authors.isNotEmpty)(package.authors.join(", ")).text.size(14).make().pOnly(left:20, top:12),
           if(isNotBlank(package.homepage))(package.homepage?? "").text.make().pOnly(left:20, top:15),
           Container(
-            decoration: BoxDecoration(color: context.appColors.drawerBg, border: Border.all(color: context.appColors.divider), borderRadius: BorderRadius.circular(4)),
+            decoration: BoxDecoration(color: context.appColors.unreadColor, border: Border.all(color: context.appColors.divider), borderRadius: BorderRadius.circular(4)),
             margin: const EdgeInsets.only(left: 20, top:15, right:20),
             height: 230,
             child: SingleChildScrollView(
