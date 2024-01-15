@@ -1,4 +1,4 @@
-package com.example.ttoss_app
+package com.fighting_ttoss
 
 import io.flutter.embedding.android.FlutterActivity
 

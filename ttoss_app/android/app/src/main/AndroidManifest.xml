@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.new.ttoss_app_by_fastcampus">
+    package="com.fighting_ttoss">
 
     <application
         android:name="${applicationName}"
