@@ -1,5 +1,6 @@
 import 'package:fast_app_base/screen/main/tab/stock/search/search_stock_data.dart';
 import 'package:fast_app_base/screen/main/tab/stock/search/w_popular_search_stock_list.dart';
+import 'package:fast_app_base/screen/main/tab/stock/search/w_search_auto_complete_list.dart';
 import 'package:fast_app_base/screen/main/tab/stock/search/w_search_history_stock_list.dart';
 import 'package:fast_app_base/screen/main/tab/stock/search/w_stock_search_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,16 @@ class SearchStockScreen extends StatefulWidget {
   State<SearchStockScreen> createState() => _SearchStockScreenState();
 }
 
-class _SearchStockScreenState extends State<SearchStockScreen> {
+class _SearchStockScreenState extends State<SearchStockScreen> with SearchStockDataProvider{
   final controller = TextEditingController();
 
   @override
   void initState() {
     Get.put(SearchStockData());
+    controller.addListener(() {
+      searchData.search(controller.text);
+      debugPrint(controller.text);
+    });
     super.initState();
   }
 
@@ -29,15 +34,24 @@ class _SearchStockScreenState extends State<SearchStockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: StockSearchAppBar(
-        controller: controller,
-      ),
-      body: ListView(
-        children: const [
-          SearchHistoryStockList(),
-          PopularSearchStockList(),
-        ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: StockSearchAppBar(
+          controller: controller,
+        ),
+        body: Obx(
+          () => searchData.autoCompleteList.isEmpty
+              ? ListView(
+                  children: const [
+                    SearchHistoryStockList(),
+                    PopularSearchStockList(),
+                  ],
+                )
+              : SearchAutoCompleteList(controller),
+        ),
       ),
     );
   }

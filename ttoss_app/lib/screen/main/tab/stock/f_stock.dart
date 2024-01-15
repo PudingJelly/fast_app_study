@@ -1,5 +1,6 @@
 import 'package:fast_app_base/common/common.dart';
 import 'package:fast_app_base/common/widget/w_Image_button.dart';
+import 'package:fast_app_base/screen/main/tab/stock/setting/s_setting.dart';
 import 'package:fast_app_base/screen/main/tab/stock/search/s_search_stock.dart';
 import 'package:fast_app_base/screen/main/tab/stock/tab/f_my_stock.dart';
 import 'package:fast_app_base/screen/main/tab/stock/tab/f_todays_discovery.dart';
@@ -39,7 +40,7 @@ class _StockFragmentState extends State<StockFragment>
             ),
             ImageButton(
               onTap: () {
-                context.showSnackbar('설정');
+                Nav.push(SettingScreen());
               },
               imagePath: '$basePath/icon/stock_settings.png',
             ),
