@@ -40,6 +40,22 @@ final bankAccountKakao =
 //   // Set을 List로 변환
 //   bankSet.toList();
 // }
+/// 삽입
+/// bankAccounts.insert('삽입할 index', '삽입할 내용');
+///
+/// 위치이동
+/// final temp = bankAccounts.removeAt('삭제할 인덱스')
+///
+/// 교환
+/// bankAccounts.swap('바꿀위치1', '바꿀위치2') => swap: 커스텀 함수로 제작함
+///
+/// 변환
+/// final banks = bankAccounts.map((e) => e.bank).toList();
+/// for(final bank in banks) {
+/// print(bank.toString());
+/// bankAccounts의 내용을 bank 객체로 변환
+
+
 // List
 final bankAccounts = [
   bankAccountShinhan1,

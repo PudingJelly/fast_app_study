@@ -7,6 +7,7 @@ import 'package:fast_app_base/common/widget/w_rounded_container.dart';
 import 'package:fast_app_base/screen/dialog/d_message.dart';
 import 'package:fast_app_base/screen/main/s_main.dart';
 import 'package:fast_app_base/screen/main/tab/home/bank_accounts_dummy.dart';
+import 'package:fast_app_base/screen/main/tab/home/s_number.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_bank_account_widget.dart';
 import 'package:fast_app_base/screen/main/tab/home/w_ttoss_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,28 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../../dialog/d_color_bottom.dart';
 import '../../../dialog/d_confirm.dart';
 
-class HomeFragment extends StatelessWidget {
+class HomeFragment extends StatefulWidget {
   const HomeFragment({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<HomeFragment> createState() => _HomeFragmentState();
+}
+
+class _HomeFragmentState extends State<HomeFragment> {
+  late final stream = countStream(5).asBroadcastStream();
+  int count = 0;
+
+  @override
+  void initState() {
+    countStream(5).listen((event) {
+      setState(() {
+        count = event;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +57,37 @@ class HomeFragment extends StatelessWidget {
               ),
               child: Column(
                 children: [
+                  StreamBuilder(
+                    builder: (context, snapshot) {
+                      final count = snapshot.data;
+                      switch(snapshot.connectionState) {
+                        case ConnectionState.active:
+                          return count!.text.size(20).make();
+                        case ConnectionState.waiting:
+                        case ConnectionState.none:
+                          return CircularProgressIndicator();
+                        case ConnectionState.done:
+                          return '완료'.text.size(20).make();
+                      }
+                      // if(count == null) {
+                      //   return CircularProgressIndicator();
+                      // }
+                      // return count.text.size(30).bold.make();
+                    },
+                    stream: stream,
+                  ),
                   BigButton(
                     "토스뱅크",
-                    onTap: () {
-                      print("토스뱅크 누름");
-                      context.showSnackbar("토스뱅크를 눌렀어요.");
+                    onTap: () async {
+                      print('start');
+                      final result = await Nav.push(NumberScreen());
+                      print(result);
+                      print('end');
                     },
+                    // onTap: () {
+                    //   print("토스뱅크 누름");
+                    //   context.showSnackbar("토스뱅크를 눌렀어요.");
+                    // },
                   ),
                   height10,
                   RoundedContainer(
@@ -66,6 +110,14 @@ class HomeFragment extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Stream<int> countStream(int max) async* {
+    await sleepAsync(2.seconds);
+    for (int i = 1; i <= max; i++) {
+      await sleepAsync(1.seconds);
+      yield i;
+    }
   }
 
   void showSnackbar(BuildContext context) {
